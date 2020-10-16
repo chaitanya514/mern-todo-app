@@ -3,9 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 
-
-
-
 class EditTodo extends Component {
   constructor(props){
     super(props);
