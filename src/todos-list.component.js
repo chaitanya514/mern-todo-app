@@ -4,20 +4,42 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./todocompleted.css"
 
-const Todo = (props) => {
+class Todo extends React.Component {
+  constructor(props){
+    super(props)
 
+    this.delete = this.delete.bind(this);
+  }
+
+  delete() {
+   console.log("delete button works")
+   axios.delete('http://localhost:4000/todos/delete/' + this.props.todo._id)
+            .then((res) => {
+                console.log('todo successfully deleted!')
+            }).catch((error) => {
+                console.log(error)
+            })
+}
+
+render(){
   return (
     <tr>
-      <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
-      <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_responsible}</td>
-      <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
+      <td className={this.props.todo.todo_completed ? 'completed' : ''}>{this.props.todo.todo_description}</td>
+      <td className={this.props.todo.todo_completed ? 'completed' : ''}>{this.props.todo.todo_responsible}</td>
+      <td className={this.props.todo.todo_completed ? 'completed' : ''}>{this.props.todo.todo_priority}</td>
       <td>
-        <Link to={"/edit/" + props.todo._id}> Edit</Link>
+        <Link to={"/edit/" +this.props.todo._id}> Edit</Link>
       </td>
-      <td><button>Delete</button></td>
+      <td>
+      <button className="btn btn-sm btn-danger" onClick={this.delete}>
+        Delete
+      </button>
+      </td>
     </tr>
   )
 }
+
+}  
 
 
 class TodosList extends Component {
@@ -27,6 +49,7 @@ class TodosList extends Component {
     this.state = {
       todos: []
     }
+   
    
   }
 
@@ -43,12 +66,17 @@ class TodosList extends Component {
 
   }
 
-  
+
+
 
   todoList() {
     return this.state.todos.map((todo, index) => {
-      return <Todo todo={todo} key={index} />
+      return <Todo todo={todo} key={index}/>
+
+      
     })
+    
+    
   }
 
   render() {
