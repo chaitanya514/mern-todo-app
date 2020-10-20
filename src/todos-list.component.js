@@ -14,9 +14,8 @@ class Todo extends React.Component {
   delete() {
    console.log("delete button works")
    axios.delete('http://localhost:4000/todos/delete/' + this.props.todo._id)
-            .then((res) => {
-                console.log('todo successfully deleted!')
-            }).catch((error) => {
+            .then(() => this.props.deleteItem(this.props.todo._id))
+            .catch((error) => {
                 console.log(error)
             })
 }
@@ -48,9 +47,7 @@ class TodosList extends Component {
     super(props);
     this.state = {
       todos: []
-    }
-   
-   
+    } 
   }
 
   componentDidMount() {
@@ -62,16 +59,17 @@ class TodosList extends Component {
         console.log('err', err)
       })
 
-
-
   }
 
 
-
+  deleteItemHandler = (id) => {
+    this.setState(this.state.todos.filter(todo => todo.id !== id));
+    
+   }
 
   todoList() {
     return this.state.todos.map((todo, index) => {
-      return <Todo todo={todo} key={index}/>
+      return <Todo todo={todo} key={index} deleteItem={this.deleteItemHandler}/>
 
       
     })
