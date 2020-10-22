@@ -71,7 +71,7 @@ todoRoutes.route('/delete/:id').delete((req, res, next) => {
         return next(error);
       } else {
         res.status(200).json({
-          'todo': 'todo deleted successfully'
+          'todo': data
         })
       }
     })

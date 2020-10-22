@@ -50,7 +50,7 @@ class TodosList extends Component {
     } 
   }
 
-  componentDidMount() {
+componentDidMount() {
     axios.get('http://localhost:4000/todos/')
       .then(response => {
         this.setState({ todos: response.data });
@@ -60,18 +60,31 @@ class TodosList extends Component {
       })
 
   }
+  componentDidUpdate(){
+    axios.get('http://localhost:4000/todos/')
+    .then(response => {
+      this.setState({ todos: response.data });
+    })
+    .catch(err => {
+      console.log('err', err)
+    })
+  }
+  
 
 
   deleteItemHandler = (id) => {
-    this.setState(this.state.todos.filter(todo => todo.id !== id));
     
+    this.setState({
+      todos:this.state.todos.filter(todo => todo.id !== id)
+    });
+
+       
    }
 
   todoList() {
     return this.state.todos.map((todo, index) => {
       return <Todo todo={todo} key={index} deleteItem={this.deleteItemHandler}/>
 
-      
     })
     
     
